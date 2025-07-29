@@ -1,4 +1,5 @@
 const Author = require('../models/Author');
+const mongoose = require('mongoose');
 
 // C R E A T E
 exports.createAuthor = async (req, res) => {
@@ -6,7 +7,7 @@ exports.createAuthor = async (req, res) => {
         const { firstName, lastName } = req.body;
         if (!firstName || !lastName) {
             return res.status(400).json({
-                error: 'First name and last name required'
+                error: 'First and last name required'
             });
         }
         const author = new Author(req.body);
@@ -33,6 +34,14 @@ exports.getAuthors = async (req, res) => {
 
 // G E T  B Y  I D
 exports.getAuthorById = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+            error: 'Invalid ID format'
+        });
+    }
+
     try {
         const author = await Author.findById(req.params.id);
         if (!author) {
@@ -50,6 +59,14 @@ exports.getAuthorById = async (req, res) => {
 
 // U P D A T E
 exports.updateAuthorById = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+            error: 'Invalid ID format'
+        });
+    }
+
     try {
         const author = await Author.findByIdAndUpdate(req.params.id, req.body, {
             new: true, runValidators: true
@@ -69,6 +86,14 @@ exports.updateAuthorById = async (req, res) => {
 
 // D E L E T E
 exports.deleteAuthorById = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+            error: 'Invalid ID format'
+        });
+    }
+
     try {
         const author = await Author.findByIdAndDelete(req.params.id);
         if (!author) {

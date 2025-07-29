@@ -5,6 +5,9 @@ const connectDB = require('./db/config');
 const authorRoutes = require('./routes/authorRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -12,6 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 // R O U T E S
+// Swagger API documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Authors
 app.use('/api/authors', authorRoutes);
 // Books
