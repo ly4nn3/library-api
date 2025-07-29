@@ -21,10 +21,15 @@ app.use('/', require('./routes'));
 
 // Connect to MongoDB
 const startServer = async () => {
-    await connectDB();
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    })
+    try {
+        await connectDB();
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        })
+    } catch (e) {
+        console.error('Error connecting to the database:', e.message);
+        process.exit(1);
+    }
 }
 
 startServer();
