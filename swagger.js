@@ -5,7 +5,7 @@ const doc = {
         title: 'Library API',
         description: 'CSE341 Project 2 API for managing books and authors'
     },
-    host: 'https://cse341-project2-8qt8.onrender.com',
+    host: 'cse341-project2-8qt8.onrender.com',
     schemes: ['https']
 };
 
