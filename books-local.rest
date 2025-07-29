@@ -1,0 +1,45 @@
+### Create new book
+POST http://localhost:3000/api/books
+Content-Type: application/json
+
+{
+  "title": "Pride and Prejudice",
+  "author": "6888960c793f2ac6512bb8bf",
+  "genre": "Novel",
+  "ISBN": "9780141439518",
+  "summary": "A romantic novel of manners.",
+  "publishedYear": 1813,
+  "availableCopies": 7,
+  "language": "English",
+  "publisher": "Thomas Egerton"
+}
+
+### Create another book
+POST http://localhost:3000/api/books
+Content-Type: application/json
+
+{
+  "title": "The Da Vinci Code",
+  "author": "68889925a1a475eac7b45074",
+  "genre": "Thriller",
+  "ISBN": "978-0307474278",
+  "summary": "A mystery novel that explores religious symbolism and secret societies.",
+  "publishedYear": 2003,
+  "availableCopies": 10,
+  "language": "English",
+  "publisher": "Doubleday"
+}
+
+### Get all books
+GET http://localhost:3000/api/books
+
+### Get book by id
+GET http://localhost:3000/api/books/pasteidhere
+
+### Update book by id
+PUT http://localhost:3000/api/books/pasteidhere
+Content-Type: application/json
+
+{
+    "summary": "A mystery thriller novel that delves into the history of Christianity and secret societies."
+}

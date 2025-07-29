@@ -1,0 +1,38 @@
+### Create new author
+POST http://localhost:3000/api/authors
+Content-Type: application/json
+
+{
+  "firstName": "Jane",
+  "lastName": "Austen",
+  "bio": "English novelist known primarily for her six novels, which implicitly interpret, critique, and comment on the English landed gentry at the end of the 18th century.",
+  "birthDate": "1997-08-25T00:00:00.000+00:00"
+}
+
+### Create another author
+POST http://localhost:3000/api/authors
+Content-Type: application/json
+
+{
+  "firstName": "Dan",
+  "lastName": "Brown",
+  "bio": "An American author best known for his thriller novels, particularly the Robert Langdon series Angels & Demons, The Da Vinci Code, The Lost Symbol, Inferno, Origin and The Secret of Secrets.",
+  "birthDate": "1964-06-22T00:00:00.000+00:00"
+}
+
+### Get all authors
+GET http://localhost:3000/api/authors
+
+### Get author by id
+GET http://localhost:3000/api/authors/pasteidhere
+
+### Update existing author by id
+PUT http://localhost:3000/api/authors/pasteidhere
+Content-Type: application/json
+
+{
+  "birthDate": "1817-12-16T00:00:00.000+00:00"
+}
+
+### Delete author by id
+DELETE http://localhost:3000/api/authors/pasteidhere
