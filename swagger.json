@@ -5,10 +5,10 @@
     "description": "CSE341 Project 2 API for managing books and authors",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341-project2-8qt8.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/": {
