@@ -17,12 +17,12 @@ app.use(express.json());
 // R O U T E S
 // Swagger API documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// Main/home page
+app.use('/', require('./routes'));
 // Authors
 app.use('/api/authors', authorRoutes);
 // Books
 app.use('/api/books', bookRoutes);
-// Main/home page
-app.use('/', require('./routes'));
 
 // Connect to MongoDB
 const startServer = async () => {

@@ -11,6 +11,20 @@
     "http"
   ],
   "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "summary": "Welcome to the Library API",
+        "description": "This is the main entry point of the Library API. Use the endpoints to manage books and authors.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/authors/": {
       "get": {
         "tags": [
@@ -77,26 +91,26 @@
           {
             "name": "body",
             "in": "body",
-            "description": "Auhtor object",
+            "description": "Author object",
             "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "firstName": {
                   "type": "string",
-                  "example": "string"
+                  "example": "Haruki"
                 },
                 "lastName": {
                   "type": "string",
-                  "example": "string"
+                  "example": "Murakami"
                 },
                 "bio": {
                   "type": "string",
-                  "example": "string"
+                  "example": "A Japanese writer. His novels, essays, and short stories have been best-sellers in Japan and internationally, with his work translated into 50 languages and having sold millions of copies outside Japan."
                 },
                 "birthDate": {
                   "type": "string",
-                  "example": "string"
+                  "example": "1949-01-12T00:00:00.000Z"
                 }
               }
             },
@@ -186,7 +200,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Author ID",
+            "description": "Author ID (24 character hex string)",
             "example": "6888960c793f2ac6512bb8bf"
           }
         ],
@@ -409,7 +423,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Author ID",
+            "description": "Author ID (24 character hex string)",
             "example": "6888960c793f2ac6512bb8bf"
           }
         ],
@@ -467,10 +481,17 @@
     },
     "/api/books/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Books"
+        ],
+        "summary": "Get all books",
+        "description": "Retrieve all books from the database",
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -478,25 +499,55 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Books"
+        ],
+        "summary": "Create new book",
+        "description": "Add a new book to the database. Note: \"author\" field must reference an existing author ID.",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "description": "Book object",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "title": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Sense and Sensibility"
                 },
                 "author": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "6888960c793f2ac6512bb8bf"
                 },
                 "genre": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Novel"
+                },
+                "publishedYear": {
+                  "type": "number",
+                  "example": 2024
                 },
                 "ISBN": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "9780593622469"
+                },
+                "summary": {
+                  "type": "string",
+                  "example": "Follows the contrasting experiences of the Dashwood sisters, Elinor and Marianne..."
+                },
+                "availableCopies": {
+                  "type": "number",
+                  "example": 6
+                },
+                "language": {
+                  "type": "string",
+                  "example": "English"
+                },
+                "publisher": {
+                  "type": "string",
+                  "example": "Puffin Books"
                 }
               }
             }
@@ -504,10 +555,102 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Book created successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "author": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                },
+                "genre": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "publishedYear": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "ISBN": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "summary": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "availableCopies": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "language": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "publisher": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "__v": {
+                  "type": "string",
+                  "example": "version number"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Missing fields or invalid input",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Author not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
             "description": "Internal Server Error"
@@ -517,18 +660,92 @@
     },
     "/api/books/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Books"
+        ],
+        "summary": "Get book by ID",
+        "description": "Retrieve a single book by its ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Book ID (24 character hex string)",
+            "example": "688898eaa1a475eac7b45072"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Book retrieved successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "author": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                },
+                "genre": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "publishedYear": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "ISBN": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "summary": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "availableCopies": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "language": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "publisher": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "__v": {
+                  "type": "string",
+                  "example": "version number"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -539,21 +756,162 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Books"
+        ],
+        "summary": "Update book by ID",
+        "description": "Update an existing book by its ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Book ObjectID (24 character hex string)",
+            "example": "688898eaa1a475eac7b45072"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated book object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "Sense and Sensibility"
+                },
+                "genre": {
+                  "type": "string",
+                  "example": "Novel"
+                },
+                "publishedYear": {
+                  "type": "number",
+                  "example": 2024
+                },
+                "ISBN": {
+                  "type": "string",
+                  "example": "9780593622469"
+                },
+                "summary": {
+                  "type": "string",
+                  "example": "Updated summary."
+                },
+                "availableCopies": {
+                  "type": "number",
+                  "example": 6
+                },
+                "language": {
+                  "type": "string",
+                  "example": "English"
+                },
+                "publisher": {
+                  "type": "string",
+                  "example": "Puffin Books"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Book updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "author": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                },
+                "genre": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "publishedYear": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "ISBN": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "summary": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "availableCopies": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "language": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "publisher": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "__v": {
+                  "type": "string",
+                  "example": "version number"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID format",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Book not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
             "description": "Internal Server Error"
@@ -561,34 +919,60 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Books"
+        ],
+        "summary": "Delete book by ID",
+        "description": "Delete an existing book by its ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Book ObjectID (24 character hex string)",
+            "example": "688898eaa1a475eac7b45072"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "Book deleted successfully. No content returned"
+          },
+          "400": {
+            "description": "Invalid ID format",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
           "404": {
-            "description": "Not Found"
+            "description": "Book not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }

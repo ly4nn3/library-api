@@ -31,7 +31,7 @@ router.get('/:id',
         #swagger.description = 'Retrieve a single author by their ID'
         #swagger.parameters['id'] = {
             in: 'path',
-            description: 'Author ID',
+            description: 'Author ID (24 character hex string)',
             type: 'string',
             required: true,
             example: '6888960c793f2ac6512bb8bf'
@@ -75,10 +75,10 @@ router.post('/',
             description: 'Author object',
             required: true,
             schema: {
-                firstName: 'string',
-                lastName: 'string',
-                bio: 'string',
-                birthDate: 'string'
+                firstName: 'Haruki',
+                lastName: 'Murakami',
+                bio: 'A Japanese writer. His novels, essays, and short stories have been best-sellers in Japan and internationally, with his work translated into 50 languages and having sold millions of copies outside Japan.',
+                birthDate: '1949-01-12T00:00:00.000Z'
             },
             example: {
                 firstName: 'Jane',
@@ -175,7 +175,7 @@ router.delete('/:id',
         #swagger.description = 'Delete an existing author by their ID'
         #swagger.parameters['id'] = {
             in: 'path',
-            description: 'Author ID',
+            description: 'Author ID (24 character hex string)',
             type: 'string',
             required: true,
             example: '6888960c793f2ac6512bb8bf'
