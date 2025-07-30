@@ -5,15 +5,7 @@ const mongoose = require('mongoose');
 // C R E A T E
 exports.createBook = async (req, res) => {
     try {
-        const {
-            title, author, genre, ISBN
-        } = req.body;
-
-        if (!title || !author || !genre || !ISBN) {
-            return res.status(400).json({
-                error: 'All fields are required'
-            });
-        }
+        const { author } = req.body;
 
         const authorExists = await Author.findById(author);
         if (!authorExists) {
@@ -86,32 +78,8 @@ exports.updateBookById = async (req, res) => {
         });
     }
 
-    const {
-        title,
-        author,
-        genre,
-        publishedYear,
-        ISBN,
-        summary,
-        availableCopies,
-        language,
-        publisher
-    } = req.body;
-
-    const updates = {
-        ...(title && { title }),
-        ...(author && { author }),
-        ...(genre && { genre }),
-        ...(publishedYear && { publishedYear }),
-        ...(ISBN && { ISBN }),
-        ...(summary && { summary }),
-        ...(availableCopies && { availableCopies }),
-        ...(language && { language }),
-        ...(publisher && { publisher })
-    };
-
     try {
-        const updatedBook = await Book.findByIdAndUpdate(id, updates, {
+        const updatedBook = await Book.findByIdAndUpdate(id, req.body, {
             new: true, runValidators: true
         }).populate('author', 'firstName lastName');
 

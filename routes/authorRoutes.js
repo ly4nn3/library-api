@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const authorController = require('../controllers/authorController');
+const validate = require('../middleware/validate');
+const { createAuthorSchema, updateAuthorSchema } = require('../validations/authorValidation');
+const { create } = require('../models/Book');
 
 // Get all authors
 router.get('/',
@@ -14,11 +17,14 @@ router.get('/',
                 firstName: 'string',
                 lastName: 'string',
                 bio: 'string',
-                birthDate: 'string',
-                createdAt: '2025-07-28T15:00:00.000Z',
-                updatedAt: '2025-07-29T15:00:00.000Z',
-                __v: 'version number'
+                birthDate: 'string'
             },
+        }
+        #swagger.responses[404] = {
+            description: 'No authors found',
+            schema: {
+                error: 'string'
+            }
         }
     */
     authorController.getAuthors
@@ -43,10 +49,7 @@ router.get('/:id',
                 firstName: 'string',
                 lastName: 'string',
                 bio: 'string',
-                birthDate: 'string',
-                createdAt: '2025-07-28T15:00:00.000Z',
-                updatedAt: '2025-07-29T15:00:00.000Z',
-                __v: 'version number'
+                birthDate: 'string'
             }
         }
         #swagger.responses[400] = {
@@ -78,7 +81,7 @@ router.post('/',
                 firstName: 'Haruki',
                 lastName: 'Murakami',
                 bio: 'A Japanese writer. His novels, essays, and short stories have been best-sellers in Japan and internationally, with his work translated into 50 languages and having sold millions of copies outside Japan.',
-                birthDate: '1949-01-12T00:00:00.000Z'
+                birthDate: '1949-01-12'
             },
             example: {
                 firstName: 'Jane',
@@ -94,19 +97,17 @@ router.post('/',
                 firstName: 'string',
                 lastName: 'string',
                 bio: 'string',
-                birthDate: 'string',
-                createdAt: '2025-07-28T15:00:00.000Z',
-                updatedAt: '2025-07-29T15:00:00.000Z',
-                __v: 'version number'
+                birthDate: 'string'
             }
         }
         #swagger.responses[400] = {
-            description: 'First and last name required',
+            description: 'Validation error - invalid or missing fields',
             schema: {
                 error: 'string'
             }
         }
     */
+    validate(createAuthorSchema),
     authorController.createAuthor
 );
 
@@ -114,7 +115,7 @@ router.post('/',
 router.put('/:id',
     /*  #swagger.tags = ['Authors']
         #swagger.summary = 'Update author by ID'
-        #swagger.description = 'Update an existing author by their ID'
+        #swagger.description = 'Update an existing author by their ID. All fields are optional, but at least one must be provided.'
         #swagger.parameters['id'] = {
             in: 'path',
             description: 'Author ObjectID (24 character hex string)',
@@ -146,14 +147,11 @@ router.put('/:id',
                 firstName: 'string',
                 lastName: 'string',
                 bio: 'string',
-                birthDate: 'string',
-                createdAt: '2025-07-28T15:00:00.000Z',
-                updatedAt: '2025-07-29T15:00:00.000Z',
-                __v: 'version number'
+                birthDate: 'string'
             }
         }
         #swagger.responses[400] = {
-            description: 'Invalid ID format',
+            description: 'Validation error - invalid or missing fields',
             schema: {
                 error: 'string'
             }
@@ -165,6 +163,7 @@ router.put('/:id',
             }
         }
     */
+    validate(updateAuthorSchema),
     authorController.updateAuthorById
 );
 

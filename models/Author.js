@@ -6,8 +6,17 @@ const AuthorSchema = new mongoose.Schema(
         lastName: { type: String, required: true },
         bio: { type: String },
         birthDate: { type: Date }
-    },
-    { timestamps: true }
+    }, {
+        timestamps: true,
+        toJSON: {
+            transform: function (doc, ret) {
+                delete ret.__v;
+                delete ret.createdAt;
+                delete ret.updatedAt;
+                return ret;
+            }
+        }
+    }
 );
 
 module.exports = mongoose.model('Author', AuthorSchema);

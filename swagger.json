@@ -57,18 +57,21 @@
                 "birthDate": {
                   "type": "string",
                   "example": "string"
-                },
-                "createdAt": {
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No authors found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
                   "type": "string",
-                  "example": "2025-07-28T15:00:00.000Z"
-                },
-                "updatedAt": {
-                  "type": "string",
-                  "example": "2025-07-29T15:00:00.000Z"
-                },
-                "__v": {
-                  "type": "string",
-                  "example": "version number"
+                  "example": "string"
                 }
               },
               "xml": {
@@ -110,7 +113,7 @@
                 },
                 "birthDate": {
                   "type": "string",
-                  "example": "1949-01-12T00:00:00.000Z"
+                  "example": "1949-01-12"
                 }
               }
             },
@@ -147,18 +150,6 @@
                 "birthDate": {
                   "type": "string",
                   "example": "string"
-                },
-                "createdAt": {
-                  "type": "string",
-                  "example": "2025-07-28T15:00:00.000Z"
-                },
-                "updatedAt": {
-                  "type": "string",
-                  "example": "2025-07-29T15:00:00.000Z"
-                },
-                "__v": {
-                  "type": "string",
-                  "example": "version number"
                 }
               },
               "xml": {
@@ -167,7 +158,7 @@
             }
           },
           "400": {
-            "description": "First and last name required",
+            "description": "Validation error - invalid or missing fields",
             "schema": {
               "type": "object",
               "properties": {
@@ -229,18 +220,6 @@
                 "birthDate": {
                   "type": "string",
                   "example": "string"
-                },
-                "createdAt": {
-                  "type": "string",
-                  "example": "2025-07-28T15:00:00.000Z"
-                },
-                "updatedAt": {
-                  "type": "string",
-                  "example": "2025-07-29T15:00:00.000Z"
-                },
-                "__v": {
-                  "type": "string",
-                  "example": "version number"
                 }
               },
               "xml": {
@@ -288,7 +267,7 @@
           "Authors"
         ],
         "summary": "Update author by ID",
-        "description": "Update an existing author by their ID",
+        "description": "Update an existing author by their ID. All fields are optional, but at least one must be provided.",
         "parameters": [
           {
             "name": "id",
@@ -357,18 +336,6 @@
                 "birthDate": {
                   "type": "string",
                   "example": "string"
-                },
-                "createdAt": {
-                  "type": "string",
-                  "example": "2025-07-28T15:00:00.000Z"
-                },
-                "updatedAt": {
-                  "type": "string",
-                  "example": "2025-07-29T15:00:00.000Z"
-                },
-                "__v": {
-                  "type": "string",
-                  "example": "version number"
                 }
               },
               "xml": {
@@ -377,7 +344,7 @@
             }
           },
           "400": {
-            "description": "Invalid ID format",
+            "description": "Validation error - invalid or missing fields",
             "schema": {
               "type": "object",
               "properties": {
@@ -491,7 +458,19 @@
             "description": "OK"
           },
           "404": {
-            "description": "Not Found"
+            "description": "No books found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
             "description": "Internal Server Error"
@@ -611,10 +590,6 @@
                 "publisher": {
                   "type": "string",
                   "example": "string"
-                },
-                "__v": {
-                  "type": "string",
-                  "example": "version number"
                 }
               },
               "xml": {
@@ -733,10 +708,6 @@
                 "publisher": {
                   "type": "string",
                   "example": "string"
-                },
-                "__v": {
-                  "type": "string",
-                  "example": "version number"
                 }
               },
               "xml": {
@@ -872,10 +843,6 @@
                 "publisher": {
                   "type": "string",
                   "example": "string"
-                },
-                "__v": {
-                  "type": "string",
-                  "example": "version number"
                 }
               },
               "xml": {

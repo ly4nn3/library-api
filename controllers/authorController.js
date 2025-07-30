@@ -4,12 +4,6 @@ const mongoose = require('mongoose');
 // C R E A T E
 exports.createAuthor = async (req, res) => {
     try {
-        const { firstName, lastName } = req.body;
-        if (!firstName || !lastName) {
-            return res.status(400).json({
-                error: 'First and last name required'
-            });
-        }
         const author = new Author(req.body);
         await author.save();
         res.status(201).json(author);
@@ -24,6 +18,12 @@ exports.createAuthor = async (req, res) => {
 exports.getAuthors = async (req, res) => {
     try {
         const authors = await Author.find();
+
+        if (authors.length === 0) {
+            return res.status(404).json({
+                error: 'No authors found'
+            });
+        }
         res.json(authors);
     } catch (e) {
         res.status(500).json({

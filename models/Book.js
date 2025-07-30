@@ -15,6 +15,14 @@ const BookSchema = new mongoose.Schema(
         availableCopies: { type: Number, default: 1 },
         language: { type: String, default: 'English' },
         publisher: { type: String }
+    }, {
+        timestamps: true,
+        toJSON: { transform: function (doc, ret) {
+            delete ret.__v;
+            delete ret.createdAt;
+            delete ret.updatedAt;
+            return ret;
+        }}
     }
 )
 

@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bookController = require('../controllers/bookController');
+const validate = require('../middleware/validate');
+const { createBookSchema, updateBookSchema } = require('../validations/bookValidation');
 
 // Get all books
 router.get('/',
@@ -24,11 +26,16 @@ router.get('/',
                     summary: 'string',
                     availableCopies: 'number',
                     language: 'string',
-                    publisher: 'string',
-                    __v: 'version number'
+                    publisher: 'string'
                 }
             }
         ]
+        #swagger.responses[404] = {
+            description: 'No books found',
+            schema: {
+                error: 'string'
+            }
+        }
     */
     bookController.getAllBooks
 );
@@ -61,8 +68,7 @@ router.get('/:id',
                 summary: 'string',
                 availableCopies: 'number',
                 language: 'string',
-                publisher: 'string',
-                __v: 'version number'
+                publisher: 'string'
             }
         }
     */
@@ -106,8 +112,7 @@ router.post('/',
                 summary: 'string',
                 availableCopies: 'number',
                 language: 'string',
-                publisher: 'string',
-                __v: 'version number'
+                publisher: 'string'
             }
         }
         #swagger.responses[400] = {
@@ -123,6 +128,7 @@ router.post('/',
             }
         }
     */
+    validate(createBookSchema),
     bookController.createBook
 );
 
@@ -170,8 +176,7 @@ router.put('/:id',
                 summary: 'string',
                 availableCopies: 'number',
                 language: 'string',
-                publisher: 'string',
-                __v: 'version number'
+                publisher: 'string'
             }
         }
         #swagger.responses[400] = {
@@ -187,6 +192,7 @@ router.put('/:id',
             }
         }
     */
+    validate(updateBookSchema),
     bookController.updateBookById
 );
 
