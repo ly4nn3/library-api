@@ -3,7 +3,6 @@ const router = express.Router();
 const authorController = require('../controllers/authorController');
 const validate = require('../middleware/validate');
 const { createAuthorSchema, updateAuthorSchema } = require('../validations/authorValidation');
-const { create } = require('../models/Book');
 
 // Get all authors
 router.get('/',
