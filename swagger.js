@@ -12,7 +12,7 @@ const doc = {
             description: "Development server",
         },
         {
-            url: "https://cse341-project2.onrender.com",
+            url: "https://cse341-project2-8qt8.onrender.com/",
             description: "Production server",
         },
     ],
