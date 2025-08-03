@@ -1,11 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bookController = require('../controllers/bookController');
-const validate = require('../middleware/validate');
-const { createBookSchema, updateBookSchema } = require('../validations/bookValidation');
+const bookController = require("../controllers/bookController");
+const validate = require("../middleware/validate");
+const {
+    createBookSchema,
+    updateBookSchema,
+} = require("../validations/bookValidation");
+const authenticateToken = require("../middleware/jwtSession");
 
 // Get all books
-router.get('/',
+router.get(
+    "/",
     /*  #swagger.tags = ['Books']
         #swagger.summary = 'Get all books'
         #swagger.description = 'Retrieve all books from the database'
@@ -41,7 +46,8 @@ router.get('/',
 );
 
 // Get book by ID
-router.get('/:id',
+router.get(
+    "/:id",
     /*  #swagger.tags = ['Books']
         #swagger.summary = 'Get book by ID'
         #swagger.description = 'Retrieve a single book by its ID'
@@ -76,24 +82,27 @@ router.get('/:id',
 );
 
 // Create new book
-router.post('/',
+router.post(
+    "/",
     /*  #swagger.tags = ['Books']
         #swagger.summary = 'Create new book'
         #swagger.description = 'Add a new book to the database. Note: "author" field must reference an existing author ID.'
-        #swagger.parameters['body'] = {
-            in: 'body',
-            description: 'Book object',
+        #swagger.requestBody = {
             required: true,
-            schema: {
-                title: "Sense and Sensibility",
-                author: "6888960c793f2ac6512bb8bf",
-                genre: "Novel",
-                publishedYear: 2024,
-                ISBN: "9780593622469",
-                summary: "Follows the contrasting experiences of the Dashwood sisters, Elinor and Marianne...",
-                availableCopies: 6,
-                language: "English",
-                publisher: "Puffin Books"
+            content: {
+                'application/json': {
+                    example: {
+                        title: "Sense and Sensibility",
+                        author: "6888960c793f2ac6512bb8bf",
+                        genre: "Novel",
+                        publishedYear: 2024,
+                        ISBN: "9780593622469",
+                        summary: "Follows the contrasting experiences of the Dashwood sisters, Elinor and Marianne...",
+                        availableCopies: 6,
+                        language: "English",
+                        publisher: "Puffin Books"
+                    }
+                }
             }
         }
         #swagger.responses[201] = {
@@ -129,12 +138,13 @@ router.post('/',
         }
     */
     validate(createBookSchema),
+    authenticateToken,
     bookController.createBook
 );
 
-
 // Update book by ID
-router.put('/:id',
+router.put(
+    "/:id",
     /*  #swagger.tags = ['Books']
         #swagger.summary = 'Update book by ID'
         #swagger.description = 'Update an existing book by its ID'
@@ -145,19 +155,21 @@ router.put('/:id',
             required: true,
             example: '688898eaa1a475eac7b45072'
         }
-        #swagger.parameters['body'] = {
-            in: 'body',
-            description: 'Updated book object',
+        #swagger.requestBody = {
             required: true,
-            schema: {
-                title: 'Sense and Sensibility',
-                genre: 'Novel',
-                publishedYear: 2024,
-                ISBN: '9780593622469',
-                summary: "Updated summary.",
-                availableCopies: 6,
-                language: 'English',
-                publisher: 'Puffin Books'
+            content: {
+                'application/json': {
+                    example: {
+                        title: 'Sense and Sensibility',
+                        genre: 'Novel',
+                        publishedYear: 2024,
+                        ISBN: '9780593622469',
+                        summary: "Updated summary.",
+                        availableCopies: 6,
+                        language: 'English',
+                        publisher: 'Puffin Books'
+                    }
+                }
             }
         }
         #swagger.responses[200] = {
@@ -193,11 +205,13 @@ router.put('/:id',
         }
     */
     validate(updateBookSchema),
+    authenticateToken,
     bookController.updateBookById
 );
 
 // Delete book by ID
-router.delete('/:id',
+router.delete(
+    "/:id",
     /*  #swagger.tags = ['Books']
         #swagger.summary = 'Delete book by ID'
         #swagger.description = 'Delete an existing book by its ID'
@@ -224,6 +238,7 @@ router.delete('/:id',
             }
         }
     */
+    authenticateToken,
     bookController.deleteBookById
 );
 

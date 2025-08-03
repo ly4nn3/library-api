@@ -41,10 +41,12 @@ A RESTful API for managing books and authors in a library using **Node.js**, **E
 ## Configuration
 
 The `.env` file should include:
+
 ```
 MONGODB_URI=your_mongodb_connection_string
 PORT=3000
 ```
+
 ---
 
 ## License

@@ -1,29 +1,32 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const BookSchema = new mongoose.Schema(
     {
         title: { type: String, required: true },
         author: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Author',
-            required: true
+            ref: "Author",
+            required: true,
         },
         genre: { type: String, required: true },
         publishedYear: { type: Number },
         ISBN: { type: String, required: true, unique: true },
         summary: { type: String },
         availableCopies: { type: Number, default: 1 },
-        language: { type: String, default: 'English' },
-        publisher: { type: String }
-    }, {
+        language: { type: String, default: "English" },
+        publisher: { type: String },
+    },
+    {
         timestamps: true,
-        toJSON: { transform: function (doc, ret) {
-            delete ret.__v;
-            delete ret.createdAt;
-            delete ret.updatedAt;
-            return ret;
-        }}
+        toJSON: {
+            transform: function (doc, ret) {
+                delete ret.__v;
+                delete ret.createdAt;
+                delete ret.updatedAt;
+                return ret;
+            },
+        },
     }
-)
+);
 
-module.exports = mongoose.model('Book', BookSchema);
+module.exports = mongoose.model("Book", BookSchema);

@@ -1,5 +1,5 @@
-const Author = require('../models/Author');
-const mongoose = require('mongoose');
+const Author = require("../models/Author");
+const mongoose = require("mongoose");
 
 // C R E A T E
 exports.createAuthor = async (req, res) => {
@@ -9,7 +9,7 @@ exports.createAuthor = async (req, res) => {
         res.status(201).json(author);
     } catch (e) {
         res.status(500).json({
-            error: e.message
+            error: e.message,
         });
     }
 };
@@ -21,13 +21,13 @@ exports.getAuthors = async (req, res) => {
 
         if (authors.length === 0) {
             return res.status(404).json({
-                error: 'No authors found'
+                error: "No authors found",
             });
         }
         res.json(authors);
     } catch (e) {
         res.status(500).json({
-            error: e.message
+            error: e.message,
         });
     }
 };
@@ -38,7 +38,7 @@ exports.getAuthorById = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
-            error: 'Invalid ID format'
+            error: "Invalid ID format",
         });
     }
 
@@ -46,16 +46,16 @@ exports.getAuthorById = async (req, res) => {
         const author = await Author.findById(req.params.id);
         if (!author) {
             return res.status(404).json({
-                error: 'Author not found'
+                error: "Author not found",
             });
         }
         res.json(author);
     } catch (e) {
         res.status(500).json({
-            error: e.message
+            error: e.message,
         });
     }
-}
+};
 
 // U P D A T E
 exports.updateAuthorById = async (req, res) => {
@@ -63,26 +63,27 @@ exports.updateAuthorById = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
-            error: 'Invalid ID format'
+            error: "Invalid ID format",
         });
     }
 
     try {
         const author = await Author.findByIdAndUpdate(req.params.id, req.body, {
-            new: true, runValidators: true
+            new: true,
+            runValidators: true,
         });
         if (!author) {
             return res.status(404).json({
-                error: 'Author not found'
+                error: "Author not found",
             });
         }
         res.json(author);
     } catch (e) {
         res.status(500).json({
-            error: e.message
+            error: e.message,
         });
     }
-}
+};
 
 // D E L E T E
 exports.deleteAuthorById = async (req, res) => {
@@ -90,7 +91,7 @@ exports.deleteAuthorById = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
-            error: 'Invalid ID format'
+            error: "Invalid ID format",
         });
     }
 
@@ -98,13 +99,13 @@ exports.deleteAuthorById = async (req, res) => {
         const author = await Author.findByIdAndDelete(req.params.id);
         if (!author) {
             return res.status(404).json({
-                error: 'Author not found'
+                error: "Author not found",
             });
         }
-        res.json({ message: 'Author deleted successfully' });
+        res.json({ message: "Author deleted successfully" });
     } catch (e) {
         res.status(500).json({
-            error: e.message
+            error: e.message,
         });
     }
-}
+};

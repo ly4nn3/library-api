@@ -1,6 +1,6 @@
-const Book = require('../models/Book');
-const Author = require('../models/Author');
-const mongoose = require('mongoose');
+const Book = require("../models/Book");
+const Author = require("../models/Author");
+const mongoose = require("mongoose");
 
 // C R E A T E
 exports.createBook = async (req, res) => {
@@ -10,7 +10,7 @@ exports.createBook = async (req, res) => {
         const authorExists = await Author.findById(author);
         if (!authorExists) {
             return res.status(400).json({
-                error: 'Author not found. Please provide valid author ID.'
+                error: "Author not found. Please provide valid author ID.",
             });
         }
 
@@ -19,7 +19,7 @@ exports.createBook = async (req, res) => {
         res.status(201).json(book);
     } catch (e) {
         res.status(500).json({
-            error: e.message
+            error: e.message,
         });
     }
 };
@@ -27,17 +27,20 @@ exports.createBook = async (req, res) => {
 // G E T  A L L
 exports.getAllBooks = async (req, res) => {
     try {
-        const books = await Book.find().populate('author', 'firstName lastName');
+        const books = await Book.find().populate(
+            "author",
+            "firstName lastName"
+        );
 
         if (books.length === 0) {
             return res.status(404).json({
-                error: 'No books found'
+                error: "No books found",
             });
         }
         res.json(books);
     } catch (e) {
         res.status(500).json({
-            error: e.message
+            error: e.message,
         });
     }
 };
@@ -48,22 +51,25 @@ exports.getBookById = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
-            error: 'Invalid ID format'
+            error: "Invalid ID format",
         });
     }
 
     try {
-        const book = await Book.findById(id).populate('author', 'firstName lastName');
+        const book = await Book.findById(id).populate(
+            "author",
+            "firstName lastName"
+        );
 
         if (!book) {
             return res.status(404).json({
-                error: 'Book not found'
+                error: "Book not found",
             });
         }
         res.json(book);
     } catch (e) {
         res.status(500).json({
-            error: e.message
+            error: e.message,
         });
     }
 };
@@ -74,24 +80,25 @@ exports.updateBookById = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
-            error: 'Invalid ID format'
+            error: "Invalid ID format",
         });
     }
 
     try {
         const updatedBook = await Book.findByIdAndUpdate(id, req.body, {
-            new: true, runValidators: true
-        }).populate('author', 'firstName lastName');
+            new: true,
+            runValidators: true,
+        }).populate("author", "firstName lastName");
 
         if (!updatedBook) {
             return res.status(404).json({
-                error: 'Book not found'
-            })
+                error: "Book not found",
+            });
         }
         res.json(updatedBook);
     } catch (e) {
         res.status(500).json({
-            error: e.message
+            error: e.message,
         });
     }
 };
@@ -102,7 +109,7 @@ exports.deleteBookById = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
-            error: 'Invalid ID format'
+            error: "Invalid ID format",
         });
     }
 
@@ -111,16 +118,16 @@ exports.deleteBookById = async (req, res) => {
 
         if (!deletedBook) {
             return res.status(404).json({
-                error: 'Book not found'
+                error: "Book not found",
             });
         }
         res.json({
-            message: 'Book deleted successfully',
-            book: deletedBook
+            message: "Book deleted successfully",
+            book: deletedBook,
         });
     } catch (e) {
         res.status(500).json({
-            error: e.message
+            error: e.message,
         });
     }
 };
